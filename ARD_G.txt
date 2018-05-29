@@ -1,0 +1,60 @@
+
+void setup() {
+Serial.begin(9600);}
+
+int x1, x2, y1, y2, z1, z2;
+double xg, yg, zg;
+double gravity(double g1, double g2) {
+if(g1>g2){
+if((g1-g2>67)&&(g1!=0)&&(g2!=0))
+return((g1-g2)/(double)67);}
+else if(g1==g2)
+return 0;
+else{
+if((g1-g2>67)&&(g1!=0)&&(g2!=0))
+return((-1*(g2-g1)/(double)67));}
+} //end of function
+
+void loop() {
+x1=analogRead(A0);
+delay(100);
+x2=analogRead(A0);
+Serial.print("X: ");
+xg=gravity(x1, x2);
+
+if(xg>1.00)         {
+PORTD|=0X04;
+Serial.println(digitalRead(8));}
+else
+PORTD&=0XFB;
+
+Serial.print(xg); 
+y1=analogRead(A1);
+delay(100);
+y2=analogRead(A1);
+Serial.print("\t\tY: ");
+yg=gravity(y1, y2);
+
+if(yg>1.00)         {
+PORTD|=0X08;
+Serial.println(digitalRead(9));}
+else
+PORTD&=0XF7;
+
+Serial.print(yg);
+z1=analogRead(A2);
+delay(100);
+z2=analogRead(A2);
+Serial.print("\t\tZ: ");
+
+zg=gravity(z1, z2);
+if(zg>1.00)         {
+PORTD|=0X10;
+Serial.println(digitalRead(10));}
+else     
+PORTD&=0XEF;
+
+Serial.print(zg);
+Serial.println("\n");}
+
+
